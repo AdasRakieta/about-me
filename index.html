@@ -708,13 +708,8 @@
 
         <form class="contact-form reveal" id="contact-form" novalidate>
 
-          <!-- =========================================================
-               Web3Forms – key injected by GitHub Actions at deploy time.
-               Store your access key as a repository secret:
-                 Settings → Secrets → Actions → New secret
-                 Name: WEB3FORMS_ACCESS_KEY  |  Value: <your key from web3forms.com>
-               ========================================================= -->
-          <input type="hidden" name="access_key"   value="__WEB3FORMS_KEY__" />
+          <!-- Web3Forms public access key (safe to commit per Web3Forms docs) -->
+          <input type="hidden" name="access_key"   value="56562cfa-9069-499e-8f0e-8f8a6ca06ff8" />
           <input type="hidden" name="from_name"    value="Portfolio Contact Form" />
           <!-- JS will fill these dynamically before submit -->
           <input type="hidden" name="subject"      id="field-subject"   value="" />

@@ -29,11 +29,12 @@ jobs:
 
       # ------------------------------------------------------------------
       # Inject secrets into index.html at build time.
-      # Placeholder tokens in source → replaced with real values here.
-      #   __WEB3FORMS_KEY__    → environment secret: WEB3FORMS_ACCESS_KEY
+      # Only truly secret values go through here:
       #   __GH_ISSUES_TOKEN__  → environment secret: GH_ISSUES_TOKEN
       #
-      # GA4 Measurement ID (G-NKFQ2S63RL) is public — hardcoded directly.
+      # Public keys are hardcoded directly in index.html:
+      #   GA4 Measurement ID : G-NKFQ2S63RL
+      #   Web3Forms key      : 56562cfa-9069-499e-8f0e-8f8a6ca06ff8
       #
       # GH_ISSUES_TOKEN must be a fine-grained PAT scoped to:
       #   Repository: about-me only
@@ -43,10 +44,8 @@ jobs:
       # ------------------------------------------------------------------
       - name: Inject secrets into index.html
         env:
-          WEB3FORMS_KEY:    ${{ secrets.WEB3FORMS_ACCESS_KEY }}
           GH_ISSUES_TOKEN:  ${{ secrets.GH_ISSUES_TOKEN }}
         run: |
-          sed -i "s|__WEB3FORMS_KEY__|${WEB3FORMS_KEY}|g"       index.html
           sed -i "s|__GH_ISSUES_TOKEN__|${GH_ISSUES_TOKEN}|g"   index.html
 
       - name: Configure Pages
