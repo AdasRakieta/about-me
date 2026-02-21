@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Adam 'AdasRakieta' – Freelance Full-Stack Developer. Portfolio, umiejętności i projekty." />
+  <title>AdasRakieta – Portfolio</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ========================
+       Navigation
+       ======================== -->
+  <nav id="navbar" aria-label="Główna nawigacja">
+    <span class="nav-logo">&lt;AdasRakieta /&gt;</span>
+
+    <ul class="nav-links" id="nav-links" role="list">
+      <li><a href="#about">O mnie</a></li>
+      <li><a href="#skills">Umiejętności</a></li>
+      <li><a href="#services">Usługi</a></li>
+      <li><a href="#projects">Projekty</a></li>
+      <li><a href="#contact">Kontakt</a></li>
+    </ul>
+
+    <button class="hamburger" id="hamburger" aria-label="Otwórz menu" aria-expanded="false" aria-controls="nav-links">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </nav>
+
+  <!-- ========================
+       Hero
+       ======================== -->
+  <section id="hero" aria-label="Sekcja startowa">
+    <div class="hero-bg-grid" aria-hidden="true"></div>
+    <div class="hero-content">
+      <p class="hero-greeting">// Cześć, jestem</p>
+      <h1 class="hero-name">Adam<br/>„AdasRakieta"</h1>
+      <p class="hero-tagline">
+        <span id="typed-text"></span><span class="typed-cursor">|</span>
+      </p>
+      <div class="hero-cta">
+        <a href="#projects" class="btn btn-primary">🚀 Moje projekty</a>
+        <a href="#contact" class="btn btn-outline">✉ Skontaktuj się</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================
+       About
+       ======================== -->
+  <section id="about" aria-labelledby="about-title">
+    <div class="section-inner">
+      <div class="about-grid">
+        <div class="about-avatar-wrap reveal">
+          <div class="avatar-placeholder" role="img" aria-label="Avatar">🧑‍💻</div>
+        </div>
+        <div class="about-text reveal">
+          <p class="section-label">01 / O mnie</p>
+          <h2 class="section-title" id="about-title">Kim jestem?</h2>
+          <div class="divider"></div>
+          <p>
+            Jestem pasjonatem technologii i tworzenia oprogramowania. Specjalizuję
+            się w budowaniu nowoczesnych aplikacji webowych – od pomysłu przez
+            projekt, aż po gotowy produkt.
+          </p>
+          <p>
+            Jako freelancer pomagam firmom i startupom budować ich obecność
+            w sieci: strony wizytówkowe, sklepy internetowe, systemy webowe i
+            aplikacje mobilne. Stawiam na czysty kod, dobrą architekturę i
+            estetyczny interfejs.
+          </p>
+          <p>
+            Poza kodem interesuję się elektroniką, automatyką i projektami
+            open-source. Zawsze szukam nowych wyzwań, które pozwolą mi się rozwijać.
+          </p>
+          <div class="about-stats">
+            <div class="stat">
+              <div class="stat-number">3+</div>
+              <div class="stat-label">Lata doświadczenia</div>
+            </div>
+            <div class="stat">
+              <div class="stat-number">15+</div>
+              <div class="stat-label">Ukończonych projektów</div>
+            </div>
+            <div class="stat">
+              <div class="stat-number">10+</div>
+              <div class="stat-label">Zadowolonych klientów</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================
+       Skills
+       ======================== -->
+  <section id="skills" aria-labelledby="skills-title">
+    <div class="section-inner">
+      <p class="section-label reveal">02 / Umiejętności</p>
+      <h2 class="section-title reveal" id="skills-title">Co potrafię?</h2>
+      <p class="section-subtitle reveal">
+        Pracuję z nowoczesnymi technologiami zarówno po stronie frontendu, jak i
+        backendu, a także przy projektach embedded i automatyzacji.
+      </p>
+      <div class="divider reveal"></div>
+
+      <div class="skills-grid">
+        <!-- Frontend -->
+        <div class="skill-category reveal">
+          <h3>// Frontend</h3>
+
+          <div class="skill-item">
+            <div class="skill-header">
+              <span class="skill-name">HTML &amp; CSS</span>
+              <span class="skill-pct">90%</span>
+            </div>
+            <div class="skill-bar-track">
+              <div class="skill-bar-fill" data-width="90%"></div>
+            </div>
+          </div>
+
+          <div class="skill-item">
+            <div class="skill-header">
+              <span class="skill-name">JavaScript / TypeScript</span>
+              <span class="skill-pct">80%</span>
+            </div>
+            <div class="skill-bar-track">
+              <div class="skill-bar-fill" data-width="80%"></div>
+            </div>
+          </div>
+
+          <div class="skill-item">
+            <div class="skill-header">
+              <span class="skill-name">React</span>
+              <span class="skill-pct">75%</span>
+            </div>
+            <div class="skill-bar-track">
+              <div class="skill-bar-fill" data-width="75%"></div>
+            </div>
+          </div>
+
+          <div class="skill-item">
+            <div class="skill-header">
+              <span class="skill-name">Tailwind CSS</span>
+              <span class="skill-pct">70%</span>
+            </div>
+            <div class="skill-bar-track">
+              <div class="skill-bar-fill" data-width="70%"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Backend -->
+        <div class="skill-category reveal">
+          <h3>// Backend &amp; inne</h3>
+
+          <div class="skill-item">
+            <div class="skill-header">
+              <span class="skill-name">Python</span>
+              <span class="skill-pct">85%</span>
+            </div>
+            <div class="skill-bar-track">
+              <div class="skill-bar-fill" data-width="85%"></div>
+            </div>
+          </div>
+
+          <div class="skill-item">
+            <div class="skill-header">
+              <span class="skill-name">Node.js / Express</span>
+              <span class="skill-pct">72%</span>
+            </div>
+            <div class="skill-bar-track">
+              <div class="skill-bar-fill" data-width="72%"></div>
+            </div>
+          </div>
+
+          <div class="skill-item">
+            <div class="skill-header">
+              <span class="skill-name">SQL / PostgreSQL</span>
+              <span class="skill-pct">68%</span>
+            </div>
+            <div class="skill-bar-track">
+              <div class="skill-bar-fill" data-width="68%"></div>
+            </div>
+          </div>
+
+          <div class="skill-item">
+            <div class="skill-header">
+              <span class="skill-name">Git / Docker</span>
+              <span class="skill-pct">75%</span>
+            </div>
+            <div class="skill-bar-track">
+              <div class="skill-bar-fill" data-width="75%"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tools -->
+        <div class="skill-category reveal" style="grid-column: 1 / -1;">
+          <h3>// Narzędzia i technologie</h3>
+          <div class="tech-tags">
+            <span class="tech-tag">VS Code</span>
+            <span class="tech-tag">Linux</span>
+            <span class="tech-tag">Arduino / ESP32</span>
+            <span class="tech-tag">Raspberry Pi</span>
+            <span class="tech-tag">REST API</span>
+            <span class="tech-tag">GraphQL</span>
+            <span class="tech-tag">GitHub Actions</span>
+            <span class="tech-tag">Figma</span>
+            <span class="tech-tag">Firebase</span>
+            <span class="tech-tag">Supabase</span>
+            <span class="tech-tag">Bash / Scripting</span>
+            <span class="tech-tag">Webpack / Vite</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================
+       Services
+       ======================== -->
+  <section id="services" aria-labelledby="services-title">
+    <div class="section-inner">
+      <p class="section-label reveal">03 / Usługi</p>
+      <h2 class="section-title reveal" id="services-title">Jak mogę pomóc?</h2>
+      <p class="section-subtitle reveal">
+        Oferuję kompleksowe usługi webowe – od projektu UI, przez implementację,
+        aż po wdrożenie i utrzymanie.
+      </p>
+      <div class="divider reveal"></div>
+
+      <div class="services-grid">
+        <div class="service-card reveal">
+          <div class="service-icon">🎨</div>
+          <h3>Strony internetowe</h3>
+          <p>
+            Nowoczesne, responsywne strony wizytówkowe i landing page zoptymalizowane
+            pod SEO i szybkość ładowania.
+          </p>
+        </div>
+
+        <div class="service-card reveal">
+          <div class="service-icon">⚙️</div>
+          <h3>Aplikacje webowe</h3>
+          <p>
+            Tworzę zaawansowane aplikacje webowe (SPA/SSR) z nowoczesnym stackiem –
+            React, Node.js, bazy danych SQL/NoSQL.
+          </p>
+        </div>
+
+        <div class="service-card reveal">
+          <div class="service-icon">🤖</div>
+          <h3>Automatyzacja &amp; Skrypty</h3>
+          <p>
+            Automatyzuję powtarzalne procesy biznesowe – scrapery, boty,
+            pipeline'y danych i integracje API.
+          </p>
+        </div>
+
+        <div class="service-card reveal">
+          <div class="service-icon">🔌</div>
+          <h3>Projekty Embedded</h3>
+          <p>
+            Prototypy IoT i projekty elektroniczne z Arduino, ESP32, Raspberry Pi –
+            od pomysłu po gotowe urządzenie.
+          </p>
+        </div>
+
+        <div class="service-card reveal">
+          <div class="service-icon">🛒</div>
+          <h3>Sklepy online</h3>
+          <p>
+            Konfiguracja i customizacja sklepów e-commerce,
+            integracje płatności i systemy zarządzania zamówieniami.
+          </p>
+        </div>
+
+        <div class="service-card reveal">
+          <div class="service-icon">🔧</div>
+          <h3>Konsultacje &amp; Code Review</h3>
+          <p>
+            Pomagam w refaktoryzacji kodu, optymalizacji wydajności i doborze
+            właściwych technologii do projektu.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================
+       Projects
+       ======================== -->
+  <section id="projects" aria-labelledby="projects-title">
+    <div class="section-inner">
+      <p class="section-label reveal">04 / Projekty</p>
+      <h2 class="section-title reveal" id="projects-title">Moje projekty</h2>
+      <p class="section-subtitle reveal">
+        Wybrane projekty, które stworzyłem lub nad którymi aktualnie pracuję.
+        Kliknij, żeby dowiedzieć się więcej lub zobaczyć kod.
+      </p>
+      <div class="divider reveal"></div>
+
+      <div class="projects-grid">
+
+        <!-- Project 1 -->
+        <article class="project-card reveal">
+          <div class="project-preview">
+            <div class="project-preview-gradient" style="background: linear-gradient(135deg, #0d1117 0%, #1c3a5e 100%);"></div>
+            <span class="project-preview-emoji">🚀</span>
+          </div>
+          <div class="project-body">
+            <h3>Portfolio – about-me</h3>
+            <p>
+              Ta strona! Osobiste portfolio hostowane na GitHub Pages,
+              zbudowane w czystym HTML, CSS i JavaScript bez frameworków.
+            </p>
+            <div class="project-tags">
+              <span class="project-tag">HTML</span>
+              <span class="project-tag">CSS</span>
+              <span class="project-tag">JavaScript</span>
+            </div>
+            <div class="project-links">
+              <a href="https://github.com/AdasRakieta/about-me" target="_blank" rel="noopener noreferrer" class="project-link">
+                ⬡ GitHub
+              </a>
+              <a href="https://adasrakieta.github.io/about-me/" target="_blank" rel="noopener noreferrer" class="project-link">
+                ↗ Live
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Project 2 -->
+        <article class="project-card reveal">
+          <div class="project-preview">
+            <div class="project-preview-gradient" style="background: linear-gradient(135deg, #0d1117 0%, #1a3a20 100%);"></div>
+            <span class="project-preview-emoji">🤖</span>
+          </div>
+          <div class="project-body">
+            <h3>Projekt automatyzacji</h3>
+            <p>
+              Skrypt Pythonowy automatyzujący żmudne zadania – zbieranie danych,
+              generowanie raportów i wysyłanie powiadomień.
+            </p>
+            <div class="project-tags">
+              <span class="project-tag">Python</span>
+              <span class="project-tag">Automation</span>
+              <span class="project-tag">API</span>
+            </div>
+            <div class="project-links">
+              <a href="https://github.com/AdasRakieta" target="_blank" rel="noopener noreferrer" class="project-link">
+                ⬡ GitHub
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Project 3 -->
+        <article class="project-card reveal">
+          <div class="project-preview">
+            <div class="project-preview-gradient" style="background: linear-gradient(135deg, #0d1117 0%, #3a1a1a 100%);"></div>
+            <span class="project-preview-emoji">🔌</span>
+          </div>
+          <div class="project-body">
+            <h3>Projekt IoT / Embedded</h3>
+            <p>
+              Prototyp urządzenia IoT opartego na ESP32 z panelem sterowania
+              dostępnym przez przeglądarkę w sieci lokalnej.
+            </p>
+            <div class="project-tags">
+              <span class="project-tag">ESP32</span>
+              <span class="project-tag">C++</span>
+              <span class="project-tag">IoT</span>
+            </div>
+            <div class="project-links">
+              <a href="https://github.com/AdasRakieta" target="_blank" rel="noopener noreferrer" class="project-link">
+                ⬡ GitHub
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Project 4 -->
+        <article class="project-card reveal">
+          <div class="project-preview">
+            <div class="project-preview-gradient" style="background: linear-gradient(135deg, #0d1117 0%, #2a1a4a 100%);"></div>
+            <span class="project-preview-emoji">🌐</span>
+          </div>
+          <div class="project-body">
+            <h3>Aplikacja webowa (WIP)</h3>
+            <p>
+              Aplikacja full-stack zbudowana w React + Node.js z bazą danych
+              PostgreSQL. Aktualnie w trakcie tworzenia.
+            </p>
+            <div class="project-tags">
+              <span class="project-tag">React</span>
+              <span class="project-tag">Node.js</span>
+              <span class="project-tag">PostgreSQL</span>
+            </div>
+            <div class="project-links">
+              <a href="https://github.com/AdasRakieta" target="_blank" rel="noopener noreferrer" class="project-link">
+                ⬡ GitHub
+              </a>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================
+       Contact
+       ======================== -->
+  <section id="contact" aria-labelledby="contact-title">
+    <div class="section-inner">
+      <p class="section-label reveal">05 / Kontakt</p>
+      <h2 class="section-title reveal" id="contact-title">Porozmawiajmy!</h2>
+      <div class="divider reveal"></div>
+
+      <div class="contact-wrapper">
+        <div class="contact-info reveal">
+          <p>
+            Masz projekt, pomysł lub pytanie? Napisz do mnie – chętnie omówię
+            szczegóły i wycenię zlecenie. Odpowiadam zazwyczaj w ciągu 24&nbsp;h.
+          </p>
+          <ul class="contact-list">
+            <li>
+              <span class="contact-icon" aria-hidden="true">📧</span>
+              <a href="mailto:kontakt@adasrakieta.dev">kontakt@adasrakieta.dev</a>
+            </li>
+            <li>
+              <span class="contact-icon" aria-hidden="true">🐙</span>
+              <a href="https://github.com/AdasRakieta" target="_blank" rel="noopener noreferrer">
+                github.com/AdasRakieta
+              </a>
+            </li>
+            <li>
+              <span class="contact-icon" aria-hidden="true">💼</span>
+              <a href="https://www.linkedin.com/in/adasrakieta" target="_blank" rel="noopener noreferrer">
+                LinkedIn
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <form class="contact-form reveal" id="contact-form" novalidate>
+          <div class="form-group">
+            <label for="name">Imię i nazwisko</label>
+            <input type="text" id="name" name="name" placeholder="Jan Kowalski" required />
+          </div>
+          <div class="form-group">
+            <label for="email">Adres e-mail</label>
+            <input type="email" id="email" name="email" placeholder="jan@example.com" required />
+          </div>
+          <div class="form-group">
+            <label for="subject">Temat</label>
+            <input type="text" id="subject" name="subject" placeholder="Wycena projektu" />
+          </div>
+          <div class="form-group">
+            <label for="message">Wiadomość</label>
+            <textarea id="message" name="message" placeholder="Opisz krótko swój projekt lub pytanie..." required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">✉ Wyślij wiadomość</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================
+       Footer
+       ======================== -->
+  <footer>
+    <p>Zrobione z <span>♥</span> przez <span>AdasRakieta</span> · <span id="year"></span></p>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>
