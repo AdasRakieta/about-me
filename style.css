@@ -654,6 +654,15 @@ section { padding: 5.5rem 2.5rem; }
   box-shadow: var(--shadow-sm);
 }
 
+.form-rate-note {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--clr-text-muted);
+  margin-top: 0.6rem;
+  min-height: 1.1em;
+  transition: color var(--transition);
+}
+
 .form-group {
   display: flex;
   flex-direction: column;

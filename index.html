@@ -14,6 +14,18 @@
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%23bf5430'/><text y='.78em' x='50%' text-anchor='middle' font-size='54' font-family='Fira Code,monospace' font-weight='700' fill='white'>AR</text></svg>" />
 
   <link rel="stylesheet" href="style.css" />
+
+  <!-- GitHub Issues token – injected at deploy time (issues:write only) -->
+  <meta name="gh-token" content="__GH_ISSUES_TOKEN__" />
+
+  <!-- Google Analytics 4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-NKFQ2S63RL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-NKFQ2S63RL', { page_title: 'Portfolio – AdasRakieta' });
+  </script>
 </head>
 <body>
 
@@ -352,7 +364,7 @@
                 <span class="dc-dot dc-r"></span>
                 <span class="dc-dot dc-y"></span>
                 <span class="dc-dot dc-g"></span>
-                <span class="dc-url">localhost:5000 / living-room</span>
+                <span class="dc-url">Site_proj / living-room</span>
               </div>
               <div class="demo-chrome-body demo-smarthome">
                 <div class="sh-room-label">// Living Room &mdash; devices</div>
@@ -695,6 +707,24 @@
         </div>
 
         <form class="contact-form reveal" id="contact-form" novalidate>
+
+          <!-- =========================================================
+               Web3Forms – key injected by GitHub Actions at deploy time.
+               Store your access key as a repository secret:
+                 Settings → Secrets → Actions → New secret
+                 Name: WEB3FORMS_ACCESS_KEY  |  Value: <your key from web3forms.com>
+               ========================================================= -->
+          <input type="hidden" name="access_key"   value="__WEB3FORMS_KEY__" />
+          <input type="hidden" name="from_name"    value="Portfolio Contact Form" />
+          <!-- JS will fill these dynamically before submit -->
+          <input type="hidden" name="subject"      id="field-subject"   value="" />
+          <input type="hidden" name="country_info" id="field-country"   value="" />
+          <input type="hidden" name="sent_at"      id="field-sent-at"   value="" />
+          <input type="hidden" name="device"       id="field-device"    value="" />
+          <input type="hidden" name="referrer"     id="field-referrer"  value="" />
+          <!-- Honeypot – stops basic spam bots -->
+          <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off" />
+
           <div class="form-group">
             <label for="name">Full name</label>
             <input type="text" id="name" name="name" placeholder="John Smith" required />
@@ -704,15 +734,15 @@
             <input type="email" id="email" name="email" placeholder="john@example.com" required />
           </div>
           <div class="form-group">
-            <label for="subject">Subject</label>
-            <input type="text" id="subject" name="subject" placeholder="Project quote" />
+            <label for="topic">Subject</label>
+            <input type="text" id="topic" name="topic" placeholder="Project quote" />
           </div>
           <div class="form-group">
             <label for="message">Message</label>
             <textarea id="message" name="message" placeholder="Briefly describe your project or question..." required></textarea>
           </div>
           <button type="submit" class="btn btn-primary">Send message</button>
-        </form>
+          <p class="form-rate-note" id="form-rate-note" aria-live="polite"></p>
       </div>
     </div>
   </section>

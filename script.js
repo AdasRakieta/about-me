@@ -117,24 +117,182 @@ const skillObserver = new IntersectionObserver(
 skillBars.forEach((bar) => skillObserver.observe(bar));
 
 // ===========================
-// Contact form (static demo)
+// Rate limiter – 5 messages / calendar day per browser
+// ===========================
+const RATE_KEY   = 'cf_quota';
+const RATE_LIMIT = 5;
+
+function getRateData() {
+  try {
+    const raw = localStorage.getItem(RATE_KEY);
+    if (raw) {
+      const data = JSON.parse(raw);
+      const today = new Date().toISOString().slice(0, 10);
+      if (data.date === today) return data;
+    }
+  } catch { /* ignore parse errors */ }
+  return { date: new Date().toISOString().slice(0, 10), count: 0 };
+}
+
+function saveRateData(data) {
+  try { localStorage.setItem(RATE_KEY, JSON.stringify(data)); } catch { /* ignore */ }
+}
+
+function getRemainingSubmits() {
+  return Math.max(0, RATE_LIMIT - getRateData().count);
+}
+
+function markSubmitUsed() {
+  const d = getRateData();
+  d.count += 1;
+  saveRateData(d);
+}
+
+// ===========================
+// Contact form → Web3Forms + GitHub Issues
 // ===========================
 const contactForm = document.getElementById('contact-form');
+const rateNote    = document.getElementById('form-rate-note');
+
+function updateRateNote() {
+  if (!rateNote) return;
+  const left = getRemainingSubmits();
+  if (left <= 0) {
+    rateNote.textContent = 'Daily message limit reached (5/day). Try again tomorrow.';
+    rateNote.style.color = '#b83a2a';
+  } else if (left <= 2) {
+    rateNote.textContent = `${left} message${left === 1 ? '' : 's'} remaining today.`;
+    rateNote.style.color = 'var(--clr-text-muted)';
+  } else {
+    rateNote.textContent = '';
+  }
+}
+
+updateRateNote();
+
 if (contactForm) {
-  contactForm.addEventListener('submit', (e) => {
+  // Disable button immediately if quota is already exhausted
+  const submitBtn = contactForm.querySelector('button[type="submit"]');
+  if (getRemainingSubmits() <= 0 && submitBtn) {
+    submitBtn.disabled = true;
+  }
+
+  contactForm.addEventListener('submit', async (e) => {
     e.preventDefault();
+
+    // --- Rate limit guard ------------------------------------------------
+    if (getRemainingSubmits() <= 0) {
+      updateRateNote();
+      return;
+    }
+
     const btn = contactForm.querySelector('button[type="submit"]');
-    btn.textContent = 'Sent!';
+    const originalText = btn.textContent;
+    btn.textContent = 'Sending…';
     btn.disabled = true;
-    btn.style.background = 'var(--clr-accent2)';
-    btn.style.color = '#000';
-    setTimeout(() => {
-      btn.textContent = 'Send message';
-      btn.disabled = false;
-      btn.style.background = '';
-      btn.style.color = '';
-      contactForm.reset();
-    }, 3000);
+
+    // --- Geolocation (country / city) via ipapi.co -----------------------
+    let geoInfo = 'unknown';
+    let geoObj  = {};
+    try {
+      const ctrl = new AbortController();
+      const tid  = setTimeout(() => ctrl.abort(), 4000);
+      const geoRes = await fetch('https://ipapi.co/json/', { signal: ctrl.signal });
+      clearTimeout(tid);
+      if (geoRes.ok) {
+        geoObj  = await geoRes.json();
+        geoInfo = [geoObj.country_name, geoObj.city, geoObj.timezone].filter(Boolean).join(' / ');
+      }
+    } catch { /* silently ignore – geo is best-effort */ }
+
+    // --- Populate hidden metadata fields ---------------------------------
+    const senderName    = (contactForm.querySelector('[name="name"]')?.value   || '').trim();
+    const senderEmail   = (contactForm.querySelector('[name="email"]')?.value  || '').trim();
+    const topic         = (contactForm.querySelector('[name="topic"]')?.value  || '').trim();
+    const messageText   = (contactForm.querySelector('[name="message"]')?.value|| '').trim();
+    const sentAt        = new Date().toLocaleString('pl-PL', { timeZone: 'Europe/Warsaw', hour12: false });
+
+    contactForm.querySelector('#field-subject').value  = `[about-me portfolio] ${topic || 'New message'}`;
+    contactForm.querySelector('#field-country').value  = geoInfo;
+    contactForm.querySelector('#field-sent-at').value  = sentAt;
+    contactForm.querySelector('#field-device').value   = `${navigator.userAgent} | lang: ${navigator.language}`;
+    contactForm.querySelector('#field-referrer').value = document.referrer || 'direct';
+
+    // --- Submit via Web3Forms --------------------------------------------
+    try {
+      const res    = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: new FormData(contactForm),
+      });
+      const result = await res.json();
+
+      if (!result.success) throw new Error(result.message || 'Web3Forms error');
+
+      // Consume one rate-limit token
+      markSubmitUsed();
+      updateRateNote();
+
+      // --- Create GitHub Issue as a permanent record --------------------
+      const ghToken = document.querySelector('meta[name="gh-token"]')?.content || '';
+      if (ghToken && ghToken !== '__GH_ISSUES_TOKEN__') {
+        const issueBody = [
+          `**From:** ${senderName} <${senderEmail}>`,
+          `**Subject:** ${topic || '—'}`,
+          `**Sent at:** ${sentAt} (Warsaw)`,
+          `**Country / City:** ${geoInfo}`,
+          `**Referrer:** ${document.referrer || 'direct'}`,
+          `**Device:** \`${navigator.userAgent}\``,
+          '',
+          '---',
+          '',
+          '**Message:**',
+          '',
+          messageText,
+        ].join('\n');
+
+        fetch('https://api.github.com/repos/AdasRakieta/about-me/issues', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${ghToken}`,
+            'Content-Type':  'application/json',
+            'X-GitHub-Api-Version': '2022-11-28',
+          },
+          body: JSON.stringify({
+            title:  `[contact-form] ${topic || senderName || 'New message'} — ${sentAt}`,
+            body:   issueBody,
+            labels: ['contact-form'],
+          }),
+        }).catch(() => { /* silent – issue is best-effort backup */ });
+      }
+
+      // GA4 event
+      if (typeof gtag === 'function') {
+        gtag('event', 'form_submit', { event_category: 'Contact', value: 1 });
+      }
+
+      btn.textContent = 'Message sent!';
+      btn.style.background = 'var(--clr-green)';
+      btn.style.color = '#fff';
+
+      setTimeout(() => {
+        btn.textContent = originalText;
+        btn.disabled    = getRemainingSubmits() <= 0;
+        btn.style.background = '';
+        btn.style.color = '';
+        contactForm.reset();
+      }, 4000);
+
+    } catch (err) {
+      btn.textContent = 'Error – please email me directly';
+      btn.style.background = '#b83a2a';
+      btn.style.color = '#fff';
+      setTimeout(() => {
+        btn.textContent = originalText;
+        btn.disabled    = false;
+        btn.style.background = '';
+        btn.style.color = '';
+      }, 5000);
+    }
   });
 }
 
@@ -233,4 +391,44 @@ document.querySelectorAll('.res-slots').forEach((grid) => {
       slot.setAttribute('aria-pressed', 'true');
     });
   });
+});
+
+// ===========================
+// Google Analytics 4 – click tracking
+// (events appear in GA4 → Reports → Engagement → Events)
+// ===========================
+function ga(name, params) {
+  if (typeof gtag === 'function') gtag('event', name, params);
+}
+
+// Hero CTAs
+document.querySelectorAll('.hero-cta .btn').forEach((btn) => {
+  btn.addEventListener('click', () =>
+    ga('cta_click', { event_category: 'Hero', event_label: btn.textContent.trim() })
+  );
+});
+
+// Nav links
+document.querySelectorAll('#nav-links a').forEach((link) => {
+  link.addEventListener('click', () =>
+    ga('nav_click', { event_category: 'Navigation', event_label: link.getAttribute('href') })
+  );
+});
+
+// Project GitHub / Live links
+document.querySelectorAll('.project-link').forEach((link) => {
+  link.addEventListener('click', () =>
+    ga('project_link_click', {
+      event_category: 'Projects',
+      event_label: link.closest('article')?.querySelector('.proj-title')?.textContent.trim() || link.textContent.trim(),
+      outbound_url: link.href,
+    })
+  );
+});
+
+// Contact icon links (email, GitHub, LinkedIn)
+document.querySelectorAll('.contact-list a').forEach((link) => {
+  link.addEventListener('click', () =>
+    ga('contact_click', { event_category: 'Contact', event_label: link.href })
+  );
 });

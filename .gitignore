@@ -1,0 +1,13 @@
+# Environment & secrets – NEVER commit these
+.env
+.env.*
+*.env
+secrets.json
+config.local.*
+
+# OS noise
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/settings.json

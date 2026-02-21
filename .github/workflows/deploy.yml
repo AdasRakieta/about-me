@@ -27,13 +27,34 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # ------------------------------------------------------------------
+      # Inject secrets into index.html at build time.
+      # Placeholder tokens in source → replaced with real values here.
+      #   __WEB3FORMS_KEY__    → environment secret: WEB3FORMS_ACCESS_KEY
+      #   __GH_ISSUES_TOKEN__  → environment secret: GH_ISSUES_TOKEN
+      #
+      # GA4 Measurement ID (G-NKFQ2S63RL) is public — hardcoded directly.
+      #
+      # GH_ISSUES_TOKEN must be a fine-grained PAT scoped to:
+      #   Repository: about-me only
+      #   Permission: Issues → Read and write
+      # Add it under: Repo → Settings → Environments → github-pages
+      #   → Add environment secret → GH_ISSUES_TOKEN
+      # ------------------------------------------------------------------
+      - name: Inject secrets into index.html
+        env:
+          WEB3FORMS_KEY:    ${{ secrets.WEB3FORMS_ACCESS_KEY }}
+          GH_ISSUES_TOKEN:  ${{ secrets.GH_ISSUES_TOKEN }}
+        run: |
+          sed -i "s|__WEB3FORMS_KEY__|${WEB3FORMS_KEY}|g"       index.html
+          sed -i "s|__GH_ISSUES_TOKEN__|${GH_ISSUES_TOKEN}|g"   index.html
+
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
       - name: Upload static site artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Upload everything at the repository root
           path: "."
 
       - name: Deploy to GitHub Pages
