@@ -232,20 +232,23 @@ if (contactForm) {
     contactForm.querySelector('#field-device').value   = `${navigator.userAgent} | lang: ${navigator.language}`;
     contactForm.querySelector('#field-referrer').value = document.referrer || 'direct';
 
-    // --- Submit via Web3Forms (JSON required per docs) -------------------
+    // --- Submit via Web3Forms (use FormData, no headers per official docs) --
     try {
-      const payload = Object.fromEntries(new FormData(contactForm));
-      const res    = await fetch('https://api.web3forms.com/submit', {
+      const formData = new FormData(contactForm);
+      const res      = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept':       'application/json',
-        },
-        body: JSON.stringify(payload),
+        body: formData,
       });
       const result = await res.json();
 
-      if (!result.success) throw new Error(result.message || 'Web3Forms error');
+      // Detailed error logging for diagnostics
+      if (!res.ok || !result.success) {
+        console.error('❌ Web3Forms Error:');
+        console.error('Status:', res.status, res.statusText);
+        console.error('Response:', result);
+        console.error('FormData sent:', Object.fromEntries(formData));
+        throw new Error(result.message || `HTTP ${res.status}: ${res.statusText}`);
+      }
 
       // Consume one rate-limit token
       markSubmitUsed();
@@ -302,6 +305,9 @@ if (contactForm) {
       }, 4000);
 
     } catch (err) {
+      console.error('❌ Form submission failed:', err);
+      alert(`Error: ${err.message}\n\nCheck console (F12) for details.`);
+      
       btn.textContent = 'Error – please email me directly';
       btn.style.background = '#b83a2a';
       btn.style.color = '#fff';
