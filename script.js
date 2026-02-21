@@ -419,13 +419,37 @@ document.querySelectorAll('.res-slots').forEach((grid) => {
 });
 
 // ===========================
-// Google Analytics 4 – click tracking
-// (events appear in GA4 → Reports → Engagement → Events)
+// Google Analytics 4 custom events
 // ===========================
-function ga(name, params) {
-  if (typeof gtag === 'function') gtag('event', name, params);
-}
 
+// Track form submit (already handled in contact form handler)
+// Track project link clicks
+const projectLinks = document.querySelectorAll('.project-link');
+projectLinks.forEach(link => {
+  link.addEventListener('click', () => {
+    if (typeof gtag === 'function') {
+      gtag('event', 'project_click', {
+        event_category: 'Projects',
+        event_label: link.href,
+      });
+    }
+  });
+});
+
+// Track nav link clicks
+const navLinksGA = document.querySelectorAll('.nav-links a');
+navLinksGA.forEach(link => {
+  link.addEventListener('click', () => {
+    if (typeof gtag === 'function') {
+      gtag('event', 'nav_click', {
+        event_category: 'Navigation',
+        event_label: link.href,
+      });
+    }
+  });
+});
+
+// Contact form handler already fires 'form_submit' event
 // Hero CTAs
 document.querySelectorAll('.hero-cta .btn').forEach((btn) => {
   btn.addEventListener('click', () =>
