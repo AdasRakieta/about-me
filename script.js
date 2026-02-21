@@ -186,6 +186,20 @@ if (contactForm) {
       return;
     }
 
+    // --- Basic field validation ------------------------------------------
+    const _name    = (contactForm.querySelector('[name="name"]')?.value    || '').trim();
+    const _email   = (contactForm.querySelector('[name="email"]')?.value   || '').trim();
+    const _message = (contactForm.querySelector('[name="message"]')?.value || '').trim();
+    const emailRe  = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!_name || !_email || !_message) {
+      alert('Please fill in your name, email and message.');
+      return;
+    }
+    if (!emailRe.test(_email)) {
+      alert('Please enter a valid email address.');
+      return;
+    }
+
     const btn = contactForm.querySelector('button[type="submit"]');
     const originalText = btn.textContent;
     btn.textContent = 'Sending…';
