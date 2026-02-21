@@ -76,6 +76,11 @@ img { max-width: 100%; display: block; }
   color: var(--clr-accent);
   font-weight: 700;
   letter-spacing: 1px;
+  text-decoration: none;
+  outline: none;
+}
+.nav-logo:focus-visible {
+  outline: none;
 }
 
 .nav-links {
