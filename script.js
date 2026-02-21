@@ -232,11 +232,16 @@ if (contactForm) {
     contactForm.querySelector('#field-device').value   = `${navigator.userAgent} | lang: ${navigator.language}`;
     contactForm.querySelector('#field-referrer').value = document.referrer || 'direct';
 
-    // --- Submit via Web3Forms --------------------------------------------
+    // --- Submit via Web3Forms (JSON required per docs) -------------------
     try {
+      const payload = Object.fromEntries(new FormData(contactForm));
       const res    = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
-        body: new FormData(contactForm),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept':       'application/json',
+        },
+        body: JSON.stringify(payload),
       });
       const result = await res.json();
 
